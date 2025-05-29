@@ -18,6 +18,7 @@ echo -e "1\n2\n3\n4\n5" > test.txt
 
 Convert and verify
 ```shell
+./BinaryFileUtils generate test.txt 10 1 100
 ./BinaryFileUtils convert test.txt test.bin
 ./BinaryFileUtils verify test.bin
 ```
