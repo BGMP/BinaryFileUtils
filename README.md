@@ -17,6 +17,6 @@ echo -e "1\n2\n3\n4\n5" > test.txt
 
 Convert and verify
 ```shell
-./bin/Release/BinGenerator convert test.txt test.bin
-./bin/Release/BinGenerator verify test.bin
+./BinaryFileUtils convert test.txt test.bin
+./BinaryFileUtils verify test.bin
 ```
