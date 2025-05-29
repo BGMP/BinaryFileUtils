@@ -12,6 +12,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 // Macros:
@@ -25,8 +26,9 @@
 // Prototypes:
 ////////////////////////////////////////////////////////////////////////////////
 
-extern int convert_txt_to_binary(const char* input_file, const char* output_file);
-extern int verify_binary_file(const char* binary_file);
+extern int ConvertTextToBinary(const char* input_file, const char* output_file);
+extern int VerifyBinaryFile(const char* binary_file);
+extern int GenerateRandomTXT(const char* output_file, int count, unsigned int min_val, unsigned int max_val);
 
 ////////////////////////////////////////////////////////////////////////////////
 // Globals:

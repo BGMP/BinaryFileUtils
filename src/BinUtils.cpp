@@ -24,8 +24,9 @@
 // Prototypes:
 ////////////////////////////////////////////////////////////////////////////////
 
-int convert_txt_to_binary(const char* input_file, const char* output_file);
-int verify_binary_file(const char* binary_file);
+int ConvertTextToBinary(const char* input_file, const char* output_file);
+int VerifyBinaryFile(const char* binary_file);
+int GenerateRandomTXT(const char* output_file, int count, unsigned int min_val, unsigned int max_val);
 
 ////////////////////////////////////////////////////////////////////////////////
 // Globals:
@@ -35,7 +36,7 @@ int verify_binary_file(const char* binary_file);
 // Procedures:
 ////////////////////////////////////////////////////////////////////////////////
 
-int convert_txt_to_binary(const char* input_file, const char* output_file) {
+int ConvertTextToBinary(const char* input_file, const char* output_file) {
   FILE* input = fopen(input_file, "r");
   if (!input) {
     printf("Error: Cannot open input file '%s'\n", input_file);
@@ -93,7 +94,7 @@ int convert_txt_to_binary(const char* input_file, const char* output_file) {
   return 0;
 }
 
-int verify_binary_file(const char* binary_file) {
+int VerifyBinaryFile(const char* binary_file) {
   FILE* f = fopen(binary_file, "rb");
   if (!f) {
     printf("Error: Cannot open binary file '%s'\n", binary_file);
@@ -149,5 +150,66 @@ int verify_binary_file(const char* binary_file) {
   fclose(f);
 
   printf("\nVerification complete. File appears to be valid.\n");
+  return 0;
+}
+
+int GenerateRandomTXT(const char* output_file, int count, unsigned int min_val, unsigned int max_val) {
+  // Validate parameters
+  if (count <= 0) {
+    printf("Error: Count must be a positive number\n");
+    return 1;
+  }
+
+  if (min_val > max_val) {
+    printf("Error: Minimum value (%u) cannot be greater than maximum value (%u)\n", min_val, max_val);
+    return 1;
+  }
+
+  FILE* output = fopen(output_file, "w");
+  if (!output) {
+    printf("Error: Cannot create output file '%s'\n", output_file);
+    return 1;
+  }
+
+  // Initialize random seed
+  srand((unsigned int)time(NULL));
+
+  printf("Generating %d random numbers to '%s'...\n", count, output_file);
+  printf("Range: %u to %u\n", min_val, max_val);
+
+  unsigned int range = max_val - min_val + 1;
+
+  // Generate and write random numbers
+  for (int i = 0; i < count; i++) {
+    unsigned int random_number;
+
+    if (range == 1) {
+      // Special case: min == max
+      random_number = min_val;
+    } else {
+      // Generate random number in range [min_val, max_val]
+      random_number = min_val + (rand() % range);
+    }
+
+    if (fprintf(output, "%u\n", random_number) < 0) {
+      printf("Error: Failed to write number %u to output file\n", random_number);
+      fclose(output);
+      return 1;
+    }
+
+    if (count > 100 && (i + 1) % (count / 10) == 0) {
+      printf("  Progress: %d/%d (%.1f%%)\n", i + 1, count, ((float)(i + 1) / count) * 100.0f);
+    } else if (count <= 20) {
+      printf("  Generated: %u\n", random_number);
+    }
+  }
+
+  fclose(output);
+
+  printf("\nGeneration complete!\n");
+  printf("  Output file: %s\n", output_file);
+  printf("  Numbers generated: %d\n", count);
+  printf("  Range: %u to %u\n", min_val, max_val);
+
   return 0;
 }

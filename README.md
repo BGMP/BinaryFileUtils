@@ -6,6 +6,7 @@ A command-line tool for converting text files containing integers to binary form
 This project was built to prepare data for DACs (Directly Addressable Codes).
 
 Features:
+  - Generate: Generate random numbers to text file
   - Convert: Transform text files (one integer per line) to binary format
   - Verify: Inspect and validate binary files, showing contents and statistics
 
